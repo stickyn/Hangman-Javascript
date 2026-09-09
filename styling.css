@@ -1,0 +1,17 @@
+body {
+    background-color: rgb(255, 117, 24);
+}
+#titleText {
+    font-size: 65px;
+    font-family: "Emilys Candy";
+    font-style: italic;
+    color: black;
+    text-align: center;
+
+}
+#mechanics {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+}
