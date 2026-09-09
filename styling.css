@@ -9,6 +9,12 @@ body {
     text-align: center;
 
 }
+#wordSpawner {
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    justify-content: center;
+}
 #mechanics {
     display: flex;
     flex-direction: column;
