@@ -2,15 +2,28 @@
  * What we will do:
  * Have a word - loop it and put it in a array
  */
-openingFunction("Death")
+openingFunction("Death","NEW",null)
 
-function openingFunction(selectedWord)
+function openingFunction(selectedWord,check,array)
 {   
-    let letterArray = []
-    for(let i = 0; i < selectedWord.length; i++)
+    if(check == "NEW")
     {
-        letterArray[i] = selectedWord[i];
+        let letterArray = []
+        for(let i = 0; i < selectedWord.length; i++)
+        {
+            letterArray[i] = selectedWord[i];
+        }
+        openingFunction(selectedWord,"OLD",letterArray)
+    }
+    /**
+     * Main Gameplay
+     */
+    else {
+        for(let i = 0; i < array.length; i++)
+        {
+            console.log(array[i]);
+        }
     }
     
-   
+    
 }
