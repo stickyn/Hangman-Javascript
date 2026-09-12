@@ -1,6 +1,7 @@
-openingFunction("halloween");
+openingFunction("haelloweeen");
 function openingFunction(word)
 {
+    
     // Create an array
     let letterArray = [];
     // Put all the letters of word into the array, and print it out
@@ -18,13 +19,20 @@ function gameplay(chosenWord,lettersArray)
     const retrieveBoxVal = document.getElementById("inputBox");
     retrieveButton.addEventListener('click',function(){
         let playerAnswer = retrieveBoxVal.value;
+        let arrayed = [];
         for(let i = 0; i < lettersArray.length; i++)
         {
-            if(lettersArray[i] === playerAnswer)
+            if(lettersArray.includes(playerAnswer))
             {
-                console.log(lettersArray.indexOf(lettersArray[i]));
+                arrayed[i] = lettersArray.indexOf(playerAnswer);
+                lettersArray[lettersArray.indexOf(playerAnswer)]= lettersArray[lettersArray.indexOf(playerAnswer)].toUpperCase();
+                console.log(arrayed[i])
             }
+            
         }
+        console.log("IT WORKS!")
+        
+       
 
 
 
