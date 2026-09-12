@@ -1,29 +1,35 @@
-/**
- * What we will do:
- * Have a word - loop it and put it in a array
- */
-openingFunction("Death","NEW",null)
-
-function openingFunction(selectedWord,check,array)
-{   
-    if(check == "NEW")
+openingFunction("halloween");
+function openingFunction(word)
+{
+    // Create an array
+    let letterArray = [];
+    // Put all the letters of word into the array, and print it out
+    for(let i = 0; i < word.length; i++)
     {
-        let letterArray = []
-        for(let i = 0; i < selectedWord.length; i++)
-        {
-            letterArray[i] = selectedWord[i];
-        }
-        openingFunction(selectedWord,"OLD",letterArray)
+        letterArray[i] = word[i];
+        
     }
-    /**
-     * Main Gameplay
-     */
-    else {
-        for(let i = 0; i < array.length; i++)
+    gameplay(word,letterArray);
+}
+
+function gameplay(chosenWord,lettersArray)
+{
+    const retrieveButton = document.getElementById("submitButton");
+    const retrieveBoxVal = document.getElementById("inputBox");
+    retrieveButton.addEventListener('click',function(){
+        let playerAnswer = retrieveBoxVal.value;
+        for(let i = 0; i < lettersArray.length; i++)
         {
-            console.log(array[i]);
+            if(lettersArray[i] === playerAnswer)
+            {
+                console.log(lettersArray.indexOf(lettersArray[i]));
+            }
         }
-    }
-    
-    
+
+
+
+
+
+
+    });
 }
