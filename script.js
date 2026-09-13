@@ -1,24 +1,42 @@
-openingFunction("laestrygonians",null,null);
-function openingFunction(word,wordedArray,blankLetterArray)
-{
-    const wordSpawner = document.getElementById("wordSpawner"); 
-    // Create an array
-    let letterArray = [];
-    let blankArray = [];
-    // Put all the letters of word into the array, and print it out
-    for(let i = 0; i < word.length; i++)
-    {
-        letterArray[i] = word[i];
-        blankArray[i] = "*";
-        let a = document.createElement("h1");
-        a.setAttribute("class",'number');
-        a.setAttribute("id",i);
-        a.textContent = blankArray[i];
-        wordSpawner.append(a);
-        
-    }
+let letterArray = [];
+let blankArray = [];
 
-    gameplay(word,letterArray,blankArray,wordSpawner);
+openingFunction("halloween",letterArray,blankArray,"start");
+function openingFunction(word,wordedArray,blankLetterArray,gamemode)
+{
+    const wordSpawner = document.getElementById("wordSpawner");
+    if(gamemode === "start")
+    {
+        for(let i = 0; i < word.length; i++)
+        {
+            letterArray[i] = word[i];
+            blankArray[i] = "*";
+            let a = document.createElement("h1");
+            a.setAttribute("class",'number');
+            a.setAttribute("id",i);
+            a.textContent = blankArray[i];
+            wordSpawner.append(a);
+        
+        }
+    }
+    else 
+    {
+        for(let i = 0; i < word.length; i++)
+        {
+            let a = document.createElement("h1");
+            a.setAttribute("class",'number');
+            a.setAttribute("id",i);
+            a.textContent = blankArray[i];
+            wordSpawner.append(a);
+        }
+    }
+     
+    // Create an array
+    
+    // Put all the letters of word into the array, and print it out
+    
+
+    gameplay(word,letterArray,blankArray);
 }
 
 function gameplay(chosenWord,lettersArray,starArray,spawner)
@@ -58,6 +76,15 @@ function gameplay(chosenWord,lettersArray,starArray,spawner)
         }
         console.log(lettersArray);
         console.log(starArray);
+        const remover = document.getElementsByClassName("number");
+        const wordSpawner = document.getElementById("wordSpawner");
         
+        for(let c = 0; c < lettersArray.length; c++)
+        {
+            let b = document.getElementById(c)
+            wordSpawner.removeChild(b);
+        }
+        
+        openingFunction("halloween",lettersArray,starArray,"Froder");
     });
 }
