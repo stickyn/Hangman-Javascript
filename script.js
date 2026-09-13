@@ -1,7 +1,16 @@
 let letterArray = [];
 let blankArray = [];
+getWord();
+async function getWord()
+{
+    /**Credit API */
+    const getWordData = await fetch('https://random-word-api.herokuapp.com/word?number=1&diff=2');
+    const loadData = await getWordData.json()
+    console.log(loadData);
+    openingFunction(loadData[0],letterArray,blankArray,"start");
+}
 
-openingFunction("halloween",letterArray,blankArray,"start");
+
 function openingFunction(word,wordedArray,blankLetterArray,gamemode)
 {
     const wordSpawner = document.getElementById("wordSpawner");
@@ -31,11 +40,6 @@ function openingFunction(word,wordedArray,blankLetterArray,gamemode)
         }
     }
      
-    // Create an array
-    
-    // Put all the letters of word into the array, and print it out
-    
-
     gameplay(word,letterArray,blankArray);
 }
 
@@ -74,17 +78,15 @@ function gameplay(chosenWord,lettersArray,starArray,spawner)
         else {
             console.log("NOPE!");
         }
-        console.log(lettersArray);
-        console.log(starArray);
-        const remover = document.getElementsByClassName("number");
-        const wordSpawner = document.getElementById("wordSpawner");
         
+        
+        const wordSpawner = document.getElementById("wordSpawner");
         for(let c = 0; c < lettersArray.length; c++)
         {
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
         }
         
-        openingFunction("halloween",lettersArray,starArray,"Froder");
+        openingFunction(chosenWord,lettersArray,starArray,"Froder");
     });
 }
