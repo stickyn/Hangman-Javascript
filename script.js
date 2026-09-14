@@ -4,9 +4,8 @@ getWord();
 async function getWord()
 {
     /**Credit API */
-    const getWordData = await fetch('https://random-word-api.herokuapp.com/word?number=1&diff=2');
+    const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?number=${Math.floor(Math.random()*7) + 4}`);
     const loadData = await getWordData.json()
-    console.log(loadData);
     openingFunction(loadData[0],letterArray,blankArray,"start");
 }
 
@@ -45,7 +44,7 @@ function openingFunction(word,wordedArray,blankLetterArray,gamemode)
 
 function gameplay(chosenWord,lettersArray,starArray,spawner)
 {
-    console.log(starArray);
+    
     const retrieveButton = document.getElementById("submitButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     retrieveButton.addEventListener('click',function(){
@@ -63,7 +62,6 @@ function gameplay(chosenWord,lettersArray,starArray,spawner)
                 else {
                     arrayed[i] = lettersArray.indexOf(playerAnswer);
                     lettersArray[lettersArray.indexOf(playerAnswer)]= lettersArray[lettersArray.indexOf(playerAnswer)].toUpperCase();
-                    console.log(arrayed[i]);
                     starArray[arrayed[i]] = lettersArray[arrayed[i]].toLowerCase();
                 }
                 
