@@ -6,13 +6,14 @@ async function getWord()
     /**Credit API */
     const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?number=${Math.floor(Math.random()*7) + 4}`);
     const loadData = await getWordData.json()
-    
+    console.log(loadData[0])
     openingFunction(loadData[0],letterArray,blankArray,"start",6);
 }
 
 
 function openingFunction(word,wordedArray,blankLetterArray,gamemode,attemptAmount)
 {
+    
     const wordSpawner = document.getElementById("wordSpawner");
     if(gamemode === "start")
     {
@@ -87,7 +88,18 @@ function gameplay(chosenWord,lettersArray,starArray,attemptCount)
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
         }
-        
+        if(attemptCount == 0)
+        {   
+            
+            if(starArray.includes("*") === false)
+            {
+                
+                alert("YOU WIN!");
+            }
+            else {
+                alert(`You have lost, the word is '${chosenWord}'`);
+            }
+        }
         openingFunction(chosenWord,lettersArray,starArray,"Froder",attemptCount);
     });
 }
