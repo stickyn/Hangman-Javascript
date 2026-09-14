@@ -6,11 +6,12 @@ async function getWord()
     /**Credit API */
     const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?number=${Math.floor(Math.random()*7) + 4}`);
     const loadData = await getWordData.json()
-    openingFunction(loadData[0],letterArray,blankArray,"start");
+    
+    openingFunction(loadData[0],letterArray,blankArray,"start",6);
 }
 
 
-function openingFunction(word,wordedArray,blankLetterArray,gamemode)
+function openingFunction(word,wordedArray,blankLetterArray,gamemode,attemptAmount)
 {
     const wordSpawner = document.getElementById("wordSpawner");
     if(gamemode === "start")
@@ -39,12 +40,13 @@ function openingFunction(word,wordedArray,blankLetterArray,gamemode)
         }
     }
      
-    gameplay(word,letterArray,blankArray);
+    gameplay(word,letterArray,blankArray,attemptAmount);
 }
 
-function gameplay(chosenWord,lettersArray,starArray,spawner)
+function gameplay(chosenWord,lettersArray,starArray,attemptCount)
 {
-    
+    const getPoints = document.getElementById("attempts");
+    getPoints.textContent = attemptCount;
     const retrieveButton = document.getElementById("submitButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     retrieveButton.addEventListener('click',function(){
@@ -79,12 +81,13 @@ function gameplay(chosenWord,lettersArray,starArray,spawner)
         
         
         const wordSpawner = document.getElementById("wordSpawner");
+        attemptCount--;
         for(let c = 0; c < lettersArray.length; c++)
         {
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
         }
         
-        openingFunction(chosenWord,lettersArray,starArray,"Froder");
+        openingFunction(chosenWord,lettersArray,starArray,"Froder",attemptCount);
     });
 }

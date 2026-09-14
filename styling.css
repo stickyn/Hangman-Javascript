@@ -9,12 +9,25 @@ body {
     text-align: center;
 
 }
+#wordsandpoints {
+    display: flex;
+    flex-direction: column;
+}
 #wordSpawner {
     display: flex;
     flex-direction: row;
     justify-self: center;
     justify-content: center;
     column-gap: 25px;
+}
+#pointsDisplay {
+    
+    
+    display: flex;
+    flex-direction: row;
+    column-gap: 35px;
+    text-align: center;
+    justify-content: center;
 }
 #mechanics {
     display: flex;
