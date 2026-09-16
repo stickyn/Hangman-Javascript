@@ -50,7 +50,7 @@ function gameplay(chosenWord,lettersArray,starArray,attemptCount)
     getPoints.textContent = attemptCount;
     const retrieveButton = document.getElementById("submitButton");
     const retrieveBoxVal = document.getElementById("inputBox");
-    retrieveButton.addEventListener('click',function(){
+    retrieveButton.onclick = function(){
         let playerAnswer = retrieveBoxVal.value;
         let arrayed = [];
         if(lettersArray.includes(playerAnswer))
@@ -101,5 +101,5 @@ function gameplay(chosenWord,lettersArray,starArray,attemptCount)
             }
         }
         openingFunction(chosenWord,lettersArray,starArray,"Froder",attemptCount);
-    });
+    };
 }
