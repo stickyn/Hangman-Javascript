@@ -1,34 +1,35 @@
-let letterArray = [];
-let blankArray = [];
+
 getWord();
 async function getWord()
 {
-    /**Credit API */
-    const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?number=${Math.floor(Math.random()*7) + 4}`);
+    let setupLetterArray = [];
+    let setupStarArray = [];
+    let usedLetters = [];
+    const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?length=${Math.floor(Math.random()*6) + 4}&diff=1`);
     const loadData = await getWordData.json()
     console.log(loadData[0])
-    openingFunction(loadData[0],letterArray,blankArray,"start",6);
+    openingFunction(loadData[0],setupLetterArray,setupStarArray,"start",6,usedLetters);
 }
 
 
-function openingFunction(word,wordedArray,blankLetterArray,gamemode,attemptAmount)
+function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters)
 {
     
-    const wordSpawner = document.getElementById("wordSpawner");
     if(gamemode === "start")
     {
         for(let i = 0; i < word.length; i++)
         {
-            letterArray[i] = word[i];
-            blankArray[i] = "*";
+            displayLetterArray[i] = word[i];
+            displayStarArray[i] = "*";
             let a = document.createElement("h1");
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
-            a.textContent = blankArray[i];
+            a.textContent = displayStarArray[i];
             wordSpawner.append(a);
         
         }
     }
+
     else 
     {
         for(let i = 0; i < word.length; i++)
@@ -36,70 +37,90 @@ function openingFunction(word,wordedArray,blankLetterArray,gamemode,attemptAmoun
             let a = document.createElement("h1");
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
-            a.textContent = blankArray[i];
+            a.textContent = displayStarArray[i];
             wordSpawner.append(a);
         }
     }
      
-    gameplay(word,letterArray,blankArray,attemptAmount);
+    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters);
 }
 
-function gameplay(chosenWord,lettersArray,starArray,attemptCount)
+function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters)
 {
-    const getPoints = document.getElementById("attempts");
-    getPoints.textContent = attemptCount;
     const retrieveButton = document.getElementById("submitButton");
     const retrieveBoxVal = document.getElementById("inputBox");
-    retrieveButton.addEventListener('click',function(){
-        let playerAnswer = retrieveBoxVal.value;
-        let arrayed = [];
-        if(lettersArray.includes(playerAnswer))
+    const getPoints = document.getElementById("attemptValue");
+    if(attemptCount == 1)
+    {
+        getPoints.textContent = `Final Attempt`;
+    }
+    else 
+    {
+        getPoints.textContent = `Attempts: ${attemptCount}`;
+    }
+
+    if(attemptCount == 0)
+    {   
+        if(gameStarArray.includes("*") === false)
         {
-            for(let i = 0; i < lettersArray.length; i++)
-            {
-                if(lettersArray.includes(playerAnswer) === false)
-                {
-                   
-                    break;
-                }
-                else {
-                    arrayed[i] = lettersArray.indexOf(playerAnswer);
-                    lettersArray[lettersArray.indexOf(playerAnswer)]= lettersArray[lettersArray.indexOf(playerAnswer)].toUpperCase();
-                    starArray[arrayed[i]] = lettersArray[arrayed[i]].toLowerCase();
-                }
                 
-           
-            }
-            for(let k = 0; k < lettersArray.length; k++)
+            alert("YOU WIN!");
+        }
+        else 
+        {
+            alert(`You have lost, the word is '${chosenWord}'`);
+        }
+        location.reload();
+    }
+
+    retrieveButton.onclick = function(){
+        let playerAnswer = retrieveBoxVal.value;
+        let modifiedAnswer = playerAnswer.toLowerCase();
+        let arrayed = [];
+        if(gameUsedLetters.includes(modifiedAnswer) == true)
+        {
+            alert("You have already used this letter!"); 
+        }
+        else 
+        {
+            gameUsedLetters.push(modifiedAnswer);
+            if(gameLetterArray.includes(playerAnswer))
             {
-                lettersArray[k] = lettersArray[k].toLowerCase();
+                alert("Correct!")
+                for(let i = 0; i < gameLetterArray.length; i++)
+                {
+                    if(gameLetterArray.includes(playerAnswer) === false)
+                    {
+                    
+                        break;
+                    }
+                    else {
+                        arrayed[i] = gameLetterArray.indexOf(playerAnswer);
+                        gameLetterArray[gameLetterArray.indexOf(playerAnswer)]= gameLetterArray[gameLetterArray.indexOf(playerAnswer)].toUpperCase();
+                        gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
+                    }
+                    
+            
+                }
+                for(let k = 0; k < gameLetterArray.length; k++)
+                {
+                    gameLetterArray[k] = gameLetterArray[k].toLowerCase();
+                }
+                        
             }
-                      
-        }
-        else {
-            console.log("NOPE!");
-        }
-        
-        
+            else 
+            {
+                alert("Incorrect!");
+            }
+            attemptCount--;
+        }   
         const wordSpawner = document.getElementById("wordSpawner");
-        attemptCount--;
-        for(let c = 0; c < lettersArray.length; c++)
+        for(let c = 0; c < gameLetterArray.length; c++)
         {
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
         }
-        if(attemptCount == 0)
-        {   
-            
-            if(starArray.includes("*") === false)
-            {
-                
-                alert("YOU WIN!");
-            }
-            else {
-                alert(`You have lost, the word is '${chosenWord}'`);
-            }
-        }
-        openingFunction(chosenWord,lettersArray,starArray,"Froder",attemptCount);
-    });
+        retrieveBoxVal.value = null;
+        openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters);
+    };
 }
