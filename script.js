@@ -15,7 +15,9 @@ async function getWord()
 function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters)
 {
     const wSpawner = document.getElementById("wordSpawner");
-    const uslSpawner = document.getElementById("wordUsedDisplay");
+    const uslSpawner = document.createElement("div");
+    uslSpawner.setAttribute('id','wordUsedDisplay');
+    document.body.appendChild(uslSpawner);
     if(gamemode === "start")
     {
         for(let i = 0; i < word.length; i++)
@@ -42,10 +44,9 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             wSpawner.append(a);
         }
     }
-    for(let i = 0; i < word.length; i++)
+    for(let i = 0; i < displayUsedLetters.length; i++)
     {
             let a = document.createElement("h1");
-            a.setAttribute("class",'number');
             a.setAttribute("id",`${i}used`);
             a.textContent = displayUsedLetters[i];
             uslSpawner.append(a);
@@ -55,6 +56,7 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
 
 function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters)
 {
+    console.log(gameUsedLetters.length)
     const retrieveButton = document.getElementById("submitButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     const getPoints = document.getElementById("attemptValue");
@@ -129,9 +131,9 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         {
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
-            let k = document.getElementById(`${c}used`);
-            uslSpawner.removeChild(k);
+            
         }
+        document.body.removeChild(uslSpawner);
         retrieveBoxVal.value = null;
         openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters);
     };

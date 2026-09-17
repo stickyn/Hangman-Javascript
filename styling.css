@@ -40,6 +40,8 @@ body {
     display: flex;
     flex-direction: row;
     column-gap: 15px;
-    text-align: center;
-    justify-content: center;
+    justify-self: center;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
 }
