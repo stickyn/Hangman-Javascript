@@ -36,3 +36,10 @@ body {
     justify-content: center;
     text-align: center;
 }
+#wordUsedDisplay {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+    text-align: center;
+    justify-content: center;
+}

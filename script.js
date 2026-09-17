@@ -14,7 +14,8 @@ async function getWord()
 
 function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters)
 {
-    
+    const wSpawner = document.getElementById("wordSpawner");
+    const uslSpawner = document.getElementById("wordUsedDisplay");
     if(gamemode === "start")
     {
         for(let i = 0; i < word.length; i++)
@@ -25,7 +26,7 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
-            wordSpawner.append(a);
+            wSpawner.append(a);
         
         }
     }
@@ -38,10 +39,17 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
-            wordSpawner.append(a);
+            wSpawner.append(a);
         }
     }
-     
+    for(let i = 0; i < word.length; i++)
+    {
+            let a = document.createElement("h1");
+            a.setAttribute("class",'number');
+            a.setAttribute("id",`${i}used`);
+            a.textContent = displayUsedLetters[i];
+            uslSpawner.append(a);
+    }
     gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters);
 }
 
@@ -81,7 +89,7 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         {
             alert("You have already used this letter!"); 
         }
-        else 
+        else if(gameUsedLetters.includes(modifiedAnswer) == false)
         {
             gameUsedLetters.push(modifiedAnswer);
             if(gameLetterArray.includes(playerAnswer))
@@ -114,11 +122,15 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
             }
             attemptCount--;
         }   
+        console.log(gameUsedLetters);
         const wordSpawner = document.getElementById("wordSpawner");
+        const uslSpawner = document.getElementById("wordUsedDisplay");
         for(let c = 0; c < gameLetterArray.length; c++)
         {
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
+            let k = document.getElementById(`${c}used`);
+            uslSpawner.removeChild(k);
         }
         retrieveBoxVal.value = null;
         openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters);
