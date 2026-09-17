@@ -5,10 +5,10 @@ async function getWord()
     let setupLetterArray = [];
     let setupStarArray = [];
     let usedLetters = [];
-    const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?length=${Math.floor(Math.random()*6) + 4}&diff=1`);
+    const getWordData = await fetch(`https://random-words-api.kushcreates.com/api?length=5&words=1`);
     const loadData = await getWordData.json()
-    console.log(loadData[0])
-    openingFunction(loadData[0],setupLetterArray,setupStarArray,"start",6,usedLetters);
+    console.log(loadData[0].word)
+    openingFunction(loadData[0].word,setupLetterArray,setupStarArray,"start",6,usedLetters);
 }
 
 
