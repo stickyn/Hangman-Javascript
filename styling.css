@@ -19,7 +19,7 @@ body {
 }
 #winsLabels {
     display: flex;
-    
+    column-gap: 20px;
     flex-direction: row;
     justify-self: center;
     justify-content: center;

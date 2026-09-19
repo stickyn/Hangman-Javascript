@@ -80,7 +80,7 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         getPoints.textContent = `Attempts: ${attemptCount}`;
     }
 
-    if(attemptCount == 0)
+    if(attemptCount == 0 | gameStarArray.includes("*") === false)
     {   
         if(gameStarArray.includes("*") === false)
         {
@@ -89,7 +89,7 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
            convertToInt = convertToInt+=1;
            localStorage.setItem("wins",convertToInt);
            console.log(localStorage.getItem("wins"));
-            alert("YOU WIN!");
+          alert(`You Win! The word was '${chosenWord}'`);
             
             
             
