@@ -69,6 +69,7 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
 {
     //console.log(gameUsedLetters.length)
     const retrieveButton = document.getElementById("submitButton");
+    const clearScore = document.getElementById("clearButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     const getPoints = document.getElementById("attemptValue");
     if(attemptCount == 1)
@@ -100,7 +101,12 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         }
         location.reload();
     }
-
+    clearScore.onclick = function(){
+        confirm("Would you like to clear your wins?");
+        console.log("Yes")
+        localStorage.setItem("wins",0);
+        location.reload();
+    }
     retrieveButton.onclick = function(){
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
