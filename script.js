@@ -2,6 +2,16 @@
 getWord();
 async function getWord()
 {
+    const winCounter = document.getElementById("winCount");
+    let winValues = parseInt(winCounter.textContent);
+    if(winValues === 0)
+    {
+        console.log("yes")
+        localStorage.setItem("wins",winValues);
+    }
+    
+    winCounter.textContent = localStorage.getItem("wins");
+    
     let setupLetterArray = [];
     let setupStarArray = [];
     let usedLetters = [];
@@ -12,8 +22,9 @@ async function getWord()
 }
 
 
-function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters)
+function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters,wins)
 {
+    
     const wSpawner = document.getElementById("wordSpawner");
     const uslSpawner = document.createElement("div");
     uslSpawner.setAttribute('id','wordUsedDisplay');
@@ -51,12 +62,12 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             a.textContent = displayUsedLetters[i];
             uslSpawner.append(a);
     }
-    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters);
+    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters, wins);
 }
 
-function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters)
+function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters,wins)
 {
-    console.log(gameUsedLetters.length)
+    //console.log(gameUsedLetters.length)
     const retrieveButton = document.getElementById("submitButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     const getPoints = document.getElementById("attemptValue");
@@ -73,8 +84,15 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
     {   
         if(gameStarArray.includes("*") === false)
         {
-                
+            
+           let convertToInt = parseInt(localStorage.getItem("wins"));
+           convertToInt = convertToInt+=1;
+           localStorage.setItem("wins",convertToInt);
+           console.log(localStorage.getItem("wins"));
             alert("YOU WIN!");
+            
+            
+            
         }
         else 
         {
@@ -135,6 +153,6 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         }
         document.body.removeChild(uslSpawner);
         retrieveBoxVal.value = null;
-        openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters);
+        openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters,wins);
     };
 }
