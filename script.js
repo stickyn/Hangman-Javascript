@@ -2,6 +2,16 @@
 getWord();
 async function getWord()
 {
+    const winCounter = document.getElementById("winCount");
+    let winValues = parseInt(winCounter.textContent);
+    if(winValues === 0)
+    {
+        console.log("yes")
+        localStorage.setItem("wins",winValues);
+    }
+    
+    winCounter.textContent = localStorage.getItem("wins");
+    
     let setupLetterArray = [];
     let setupStarArray = [];
     let usedLetters = [];
@@ -12,9 +22,13 @@ async function getWord()
 }
 
 
-function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters)
+function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters,wins)
 {
     
+    const wSpawner = document.getElementById("wordSpawner");
+    const uslSpawner = document.createElement("div");
+    uslSpawner.setAttribute('id','wordUsedDisplay');
+    document.body.appendChild(uslSpawner);
     if(gamemode === "start")
     {
         for(let i = 0; i < word.length; i++)
@@ -25,7 +39,7 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
-            wordSpawner.append(a);
+            wSpawner.append(a);
         
         }
     }
@@ -38,16 +52,24 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
-            wordSpawner.append(a);
+            wSpawner.append(a);
         }
     }
-     
-    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters);
+    for(let i = 0; i < displayUsedLetters.length; i++)
+    {
+            let a = document.createElement("h1");
+            a.setAttribute("id",`${i}used`);
+            a.textContent = displayUsedLetters[i];
+            uslSpawner.append(a);
+    }
+    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters, wins);
 }
 
-function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters)
+function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters,wins)
 {
+    //console.log(gameUsedLetters.length)
     const retrieveButton = document.getElementById("submitButton");
+    const clearScore = document.getElementById("clearButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     const getPoints = document.getElementById("attemptValue");
     if(attemptCount == 1)
@@ -59,12 +81,19 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         getPoints.textContent = `Attempts: ${attemptCount}`;
     }
 
-    if(attemptCount == 0)
+    if(attemptCount == 0 | gameStarArray.includes("*") === false)
     {   
         if(gameStarArray.includes("*") === false)
         {
-                
-            alert("YOU WIN!");
+            
+           let convertToInt = parseInt(localStorage.getItem("wins"));
+           convertToInt = convertToInt+=1;
+           localStorage.setItem("wins",convertToInt);
+           console.log(localStorage.getItem("wins"));
+          alert(`You Win! The word was '${chosenWord}'`);
+            
+            
+            
         }
         else 
         {
@@ -72,55 +101,71 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         }
         location.reload();
     }
-
+    clearScore.onclick = function(){
+        confirm("Would you like to clear your wins?");
+        console.log("Yes")
+        localStorage.setItem("wins",0);
+        location.reload();
+    }
     retrieveButton.onclick = function(){
+        const possibleLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
         let arrayed = [];
-        if(gameUsedLetters.includes(modifiedAnswer) == true)
+        if(possibleLetters.includes(modifiedAnswer) == false)
         {
-            alert("You have already used this letter!"); 
+            alert("Invalid character");
         }
-        else 
-        {
-            gameUsedLetters.push(modifiedAnswer);
-            if(gameLetterArray.includes(playerAnswer))
-            {
-                alert("Correct!")
-                for(let i = 0; i < gameLetterArray.length; i++)
+        else {
+                if(gameUsedLetters.includes(modifiedAnswer) == true)
                 {
-                    if(gameLetterArray.includes(playerAnswer) === false)
+                    alert("You have already used this letter!"); 
+                }
+            else if(gameUsedLetters.includes(modifiedAnswer) == false)
+            {
+                gameUsedLetters.push(modifiedAnswer);
+                if(gameLetterArray.includes(playerAnswer))
+                {
+                    alert("Correct!")
+                    for(let i = 0; i < gameLetterArray.length; i++)
                     {
-                    
-                        break;
-                    }
-                    else {
-                        arrayed[i] = gameLetterArray.indexOf(playerAnswer);
-                        gameLetterArray[gameLetterArray.indexOf(playerAnswer)]= gameLetterArray[gameLetterArray.indexOf(playerAnswer)].toUpperCase();
-                        gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
-                    }
-                    
-            
-                }
-                for(let k = 0; k < gameLetterArray.length; k++)
-                {
-                    gameLetterArray[k] = gameLetterArray[k].toLowerCase();
-                }
+                        if(gameLetterArray.includes(playerAnswer) === false)
+                        {
                         
-            }
-            else 
-            {
-                alert("Incorrect!");
-            }
-            attemptCount--;
-        }   
+                            break;
+                        }
+                        else {
+                            arrayed[i] = gameLetterArray.indexOf(playerAnswer);
+                            gameLetterArray[gameLetterArray.indexOf(playerAnswer)]= gameLetterArray[gameLetterArray.indexOf(playerAnswer)].toUpperCase();
+                            gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
+                        }
+                        
+                
+                    }
+                    for(let k = 0; k < gameLetterArray.length; k++)
+                    {
+                        gameLetterArray[k] = gameLetterArray[k].toLowerCase();
+                    }
+                            
+                }
+                else 
+                {
+                    alert("Incorrect!");
+                }
+                attemptCount--;
+            }   
+        }
+        console.log(gameUsedLetters);
         const wordSpawner = document.getElementById("wordSpawner");
+        const uslSpawner = document.getElementById("wordUsedDisplay");
         for(let c = 0; c < gameLetterArray.length; c++)
         {
             let b = document.getElementById(c)
             wordSpawner.removeChild(b);
+            
         }
+        document.body.removeChild(uslSpawner);
         retrieveBoxVal.value = null;
-        openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters);
+        openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters,wins);
     };
 }

@@ -1,6 +1,14 @@
 body {
     background-color: rgb(255, 117, 24);
 }
+#header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+    column-gap: 45px;
+}
 #titleText {
     font-size: 65px;
     font-family: "Emilys Candy";
@@ -9,6 +17,23 @@ body {
     text-align: center;
 
 }
+#winsLabels {
+    display: flex;
+    column-gap: 20px;
+    flex-direction: row;
+    justify-self: center;
+    justify-content: center;
+}
+#winAmount {
+    text-align: center;
+   font-size: 35px; 
+   
+}
+#winCount {
+    text-align: center;
+   font-size: 35px; 
+}
+
 #wordsandpoints {
     display: flex;
     flex-direction: column;
@@ -35,4 +60,13 @@ body {
     justify-self: center;
     justify-content: center;
     text-align: center;
+}
+#wordUsedDisplay {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+    justify-self: center;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
 }
