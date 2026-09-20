@@ -11,7 +11,6 @@ async function getWord()
     }
     
     winCounter.textContent = localStorage.getItem("wins");
-    
     let setupLetterArray = [];
     let setupStarArray = [];
     let usedLetters = [];
@@ -67,40 +66,34 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
 
 function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters,wins)
 {
-    //console.log(gameUsedLetters.length)
     const retrieveButton = document.getElementById("submitButton");
     const clearScore = document.getElementById("clearButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     const getPoints = document.getElementById("attemptValue");
-    if(attemptCount == 1)
+    switch(attemptCount) 
     {
-        getPoints.textContent = `Final Attempt`;
+        case 1:
+            getPoints.textContent = `Final Attempt`;
+            break;
+        default:
+            getPoints.textContent = `Attempts: ${attemptCount}`;
+            break;
     }
-    else 
+    if(gameStarArray.includes("*") == false)
     {
-        getPoints.textContent = `Attempts: ${attemptCount}`;
-    }
-
-    if(attemptCount == 0 | gameStarArray.includes("*") === false)
-    {   
-        if(gameStarArray.includes("*") === false)
-        {
-            
-           let convertToInt = parseInt(localStorage.getItem("wins"));
-           convertToInt = convertToInt+=1;
-           localStorage.setItem("wins",convertToInt);
-           console.log(localStorage.getItem("wins"));
-          alert(`You Win! The word was '${chosenWord}'`);
-            
-            
-            
-        }
-        else 
-        {
-            alert(`You have lost, the word is '${chosenWord}'`);
-        }
+        let convertToInt = parseInt(localStorage.getItem("wins"));
+        convertToInt = convertToInt+=1;
+        localStorage.setItem("wins",convertToInt);
+        console.log(localStorage.getItem("wins"));
+        alert(`You Win! The word was '${chosenWord}'`);
         location.reload();
     }
+    else if(attemptCount == 0)
+    {
+            alert(`You have lost, the word is '${chosenWord}'`);
+            location.reload();
+    }
+        
     clearScore.onclick = function(){
         confirm("Would you like to clear your wins?");
         console.log("Yes")
