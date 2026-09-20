@@ -108,46 +108,53 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         location.reload();
     }
     retrieveButton.onclick = function(){
+        const possibleLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
         let arrayed = [];
-        if(gameUsedLetters.includes(modifiedAnswer) == true)
+        if(possibleLetters.includes(modifiedAnswer) == false)
         {
-            alert("You have already used this letter!"); 
+            alert("Invalid character");
         }
-        else if(gameUsedLetters.includes(modifiedAnswer) == false)
-        {
-            gameUsedLetters.push(modifiedAnswer);
-            if(gameLetterArray.includes(playerAnswer))
-            {
-                alert("Correct!")
-                for(let i = 0; i < gameLetterArray.length; i++)
+        else {
+                if(gameUsedLetters.includes(modifiedAnswer) == true)
                 {
-                    if(gameLetterArray.includes(playerAnswer) === false)
+                    alert("You have already used this letter!"); 
+                }
+            else if(gameUsedLetters.includes(modifiedAnswer) == false)
+            {
+                gameUsedLetters.push(modifiedAnswer);
+                if(gameLetterArray.includes(playerAnswer))
+                {
+                    alert("Correct!")
+                    for(let i = 0; i < gameLetterArray.length; i++)
                     {
-                    
-                        break;
-                    }
-                    else {
-                        arrayed[i] = gameLetterArray.indexOf(playerAnswer);
-                        gameLetterArray[gameLetterArray.indexOf(playerAnswer)]= gameLetterArray[gameLetterArray.indexOf(playerAnswer)].toUpperCase();
-                        gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
-                    }
-                    
-            
-                }
-                for(let k = 0; k < gameLetterArray.length; k++)
-                {
-                    gameLetterArray[k] = gameLetterArray[k].toLowerCase();
-                }
+                        if(gameLetterArray.includes(playerAnswer) === false)
+                        {
                         
-            }
-            else 
-            {
-                alert("Incorrect!");
-            }
-            attemptCount--;
-        }   
+                            break;
+                        }
+                        else {
+                            arrayed[i] = gameLetterArray.indexOf(playerAnswer);
+                            gameLetterArray[gameLetterArray.indexOf(playerAnswer)]= gameLetterArray[gameLetterArray.indexOf(playerAnswer)].toUpperCase();
+                            gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
+                        }
+                        
+                
+                    }
+                    for(let k = 0; k < gameLetterArray.length; k++)
+                    {
+                        gameLetterArray[k] = gameLetterArray[k].toLowerCase();
+                    }
+                            
+                }
+                else 
+                {
+                    alert("Incorrect!");
+                }
+                attemptCount--;
+            }   
+        }
         console.log(gameUsedLetters);
         const wordSpawner = document.getElementById("wordSpawner");
         const uslSpawner = document.getElementById("wordUsedDisplay");
