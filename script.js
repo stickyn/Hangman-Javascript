@@ -1,5 +1,11 @@
 
 getWord();
+/** 
+ * 'getWord()' retrieves the generated word from the API, and get's it ready for gameplay 
+ * @async
+ * @const winCounter - Retrieves the element containing the total amount of wins the player has (default is 0)
+ * 
+*/
 async function getWord()
 {
     const winCounter = document.getElementById("winCount");
@@ -109,27 +115,28 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         {
             alert("Invalid character");
         }
-        else {
-                if(gameUsedLetters.includes(modifiedAnswer) == true)
-                {
-                    alert("You have already used this letter!"); 
-                }
+        else 
+        {
+            if(gameUsedLetters.includes(modifiedAnswer) == true)
+            {
+                alert("You have already used this letter!"); 
+            }
             else if(gameUsedLetters.includes(modifiedAnswer) == false)
             {
                 gameUsedLetters.push(modifiedAnswer);
-                if(gameLetterArray.includes(playerAnswer))
+                if(gameLetterArray.includes(modifiedAnswer))
                 {
                     alert("Correct!")
                     for(let i = 0; i < gameLetterArray.length; i++)
                     {
-                        if(gameLetterArray.includes(playerAnswer) === false)
+                        if(gameLetterArray.includes(modifiedAnswer) === false)
                         {
                         
                             break;
                         }
                         else {
-                            arrayed[i] = gameLetterArray.indexOf(playerAnswer);
-                            gameLetterArray[gameLetterArray.indexOf(playerAnswer)]= gameLetterArray[gameLetterArray.indexOf(playerAnswer)].toUpperCase();
+                            arrayed[i] = gameLetterArray.indexOf(modifiedAnswer);
+                            gameLetterArray[gameLetterArray.indexOf(modifiedAnswer)]= gameLetterArray[gameLetterArray.indexOf(modifiedAnswer)].toUpperCase();
                             gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
                         }
                         
