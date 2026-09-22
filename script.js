@@ -1,11 +1,7 @@
 
 getWord();
-/** 
- * 'getWord()' retrieves the generated word from the API, and get's it ready for gameplay 
- * @async
- * @const winCounter - Retrieves the element containing the total amount of wins the player has (default is 0)
- * 
-*/
+
+
 async function getWord()
 {
     const winCounter = document.getElementById("winCount");
@@ -26,7 +22,17 @@ async function getWord()
     openingFunction(loadData[0].word,setupLetterArray,setupStarArray,"start",6,usedLetters);
 }
 
-
+/**
+ * Converts a fetched word into arrays, and displays that to the screen alongside displaying the player's score, wins, and incorrect words
+ * @constructor
+ * @param {string} word - Contains the word fetched from the api
+ * @param {Array} displayLetterArray  - Letters from 'word' stored seperately in a array, that is displayed if the player is correct corresponding to 'displayStarArray'
+ * @param {Array} displayStarArray  - An array for "*" that act as placeholders during gameplay for undiscovered words, and is replaced with the corresponding letter from displayLetterArray for a correct answer
+ * @param {string} gamemode - Used for when the function is recalled, at the start of game, it simply displays the star array, after the first turn, the game checks for correct answers afterwards
+ * @param {int} attemptAmount - How many attempts the player has, (or body parts until the man is created)
+ * @param {Array} displayUsedLetters - All the unsuccessful letters the player has chosen in an array
+ * @param {int} wins - Number of wins the user has in the entire app's history (until like a cleared search history data)
+ */
 function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attemptAmount,displayUsedLetters,wins)
 {
     
@@ -67,10 +73,19 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             a.textContent = displayUsedLetters[i];
             uslSpawner.append(a);
     }
-    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters, wins);
+    gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters,wins);
 }
-
-function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters,wins)
+/**
+ * Primary gameplay, wait for the user to enter a letter, and check if it's correct or incorrect, and call openingFunction to update arrays to the screen
+ * @constructor
+ * @param {string} gameWord - (From 'openingFunction') this is the word that was fetched from the API 
+ * @param {Array} gameLetterArray - (From 'openingFunction') this array contains all the letters from 'gameWord'
+ * @param {Array} gameStarArray - (From 'openingFunction') the array that is filled with stars that coordinates with 
+ * @param {int} attemptCount - (From 'openingFunction') The number of attempts, either starting at 6 or at how ever the player was at before
+ * @param {Array} gameUsedLetters - (From 'openingFunction') array containing all the player's failed attempts
+ * @param {int} gameWins - (From 'openingFunction') all the player's stored wins
+ */
+function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLetters,gameWins)
 {
     const retrieveButton = document.getElementById("submitButton");
     const clearScore = document.getElementById("clearButton");
@@ -91,12 +106,12 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         convertToInt = convertToInt+=1;
         localStorage.setItem("wins",convertToInt);
         console.log(localStorage.getItem("wins"));
-        alert(`You Win! The word was '${chosenWord}'`);
+        alert(`You Win! The word was '${gameWord}'`);
         location.reload();
     }
     else if(attemptCount == 0)
     {
-            alert(`You have lost, the word is '${chosenWord}'`);
+            alert(`You have lost, the word is '${gameWord}'`);
             location.reload();
     }
         
@@ -166,6 +181,6 @@ function gameplay(chosenWord,gameLetterArray,gameStarArray,attemptCount,gameUsed
         }
         document.body.removeChild(uslSpawner);
         retrieveBoxVal.value = null;
-        openingFunction(chosenWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters,wins);
+        openingFunction(gameWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters,gameWins);
     };
 }
