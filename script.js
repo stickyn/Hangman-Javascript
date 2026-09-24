@@ -1,6 +1,16 @@
+/**
+ * If you encounter comments that look like this:
+ * 1.
+ * 2.
+ * 3.
+ * This coordinates to the order of each line of code, for example:
+ * 
+ * '1. 'winCounter' retrieves an 'h1' element that will display the player's total wins'
+ * This is in the 'getWord' and the first code line of 'getWord' is: 'const winCounter = document.getElementById("winCount");'
+ * Sometimes, we break away from this, this is to explain a big block of code, and the lines inside of it mostly do basic things like creating an element
+ */
 
 getWord();
-
 /**
  * Fetches a random word, converts it into a array of it's letters and a corresponding count blank array, and checks for the player's wins.
  */
@@ -25,7 +35,7 @@ async function getWord()
     let setupStarArray = [];
     let usedLetters = [];
    
-    /**We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: )*/
+    /** We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: )*/
     
     const getWordData = await fetch(`https://random-words-api.kushcreates.com/api?length=5&words=1`);
     const loadData = await getWordData.json()
@@ -127,7 +137,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     const clearScore = document.getElementById("clearButton");
     const retrieveBoxVal = document.getElementById("inputBox");
     const getPoints = document.getElementById("attemptValue");
-    /** This is a gimmick, it checks how many attempts the player has, and if it's 1, the 'getPoints' element is switched to 'Final Attempt' */
+    /** This is a gimmick, it checks how many attempts the player has, and if it's 1, the 'getPoints' element is switched to 'Final Attempt' but by default showcases 'Attempts: "attemptsGoHere"' */
     switch(attemptCount) 
     {
         case 1:
@@ -225,15 +235,15 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                             gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
                         }
                         /**
-                         * Visual:
-                         * Word Chosen: freddy
-                         * Player chose letter: 'd'
+                         * Visual example of loop:
+                         * Word Chosen from API: freddy
+                         * Player chose the letter: 'd'
                          * Loop 1: 
                          * 1. I found 'd' in 'freddy'
-                         * 2. freDdy (d was found at index/position 3)
+                         * 2. (d was found at index/position 3) 'freddy' is changed to 'freDdy'
                          * Loop 2:
                          * 1. I found 'd' in 'freDdy'
-                         * 2. freDDy (d was found at index/position 4)
+                         * 2. (d was found at index/position 4) 'freDdy' is changed to 'freDDy' 
                          * Loop 3:
                          * 1. 'freDDy' no longer contains 'd'
                          */
