@@ -33,7 +33,7 @@ async function getWord()
      */
     const winCounter = document.getElementById("winCount");
     let winValues = parseInt(winCounter.textContent);
-    if(winValues === 0)
+    if(winValues == 0)
     {
         localStorage.setItem("wins",winValues);
     }
@@ -49,6 +49,7 @@ async function getWord()
     const loadData = await getWordData.json()
     /** 'loadData[0].word' is the word fetched */
     console.log(loadData[0].word)
+    
     openingFunction(loadData[0].word,setupLetterArray,setupStarArray,"start",6,usedLetters);
 }
 
@@ -77,7 +78,7 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
     const uslSpawner = document.createElement("div");
     uslSpawner.setAttribute('id','wordUsedDisplay');
     document.body.appendChild(uslSpawner);
-    if(gamemode === "start")
+    if(gamemode == "start")
     {
         /**
          * 1. Put every letter from 'word' into 'displayLetterArray' 
@@ -194,6 +195,8 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
      */
     retrieveButton.onclick = function(){
         const possibleLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        const hangmanImages = ['Hangman Images/hm7.png','Hangman Images/hm6.png','Hangman Images/hm5.png','Hangman Images/hm4.png','Hangman Images/hm3.png','Hangman Images/hm2.png'];
+        const hangmanImContainer = document.getElementById("hangmanContainer");
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
         let arrayed = [];
@@ -269,9 +272,12 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                 else 
                 {
                     alert("Incorrect!");
+                    /** Subtract one from count only if the player is incorrect and not if the letter was used or not valid*/
+                    attemptCount--;
+                    hangmanImContainer.setAttribute("src",hangmanImages[attemptCount]);
+
                 }
-                /** Subtract one from count only if the player is incorrect or correct and not if the letter was used or not valid*/
-                attemptCount--;
+                
             }   
         }
         console.log(gameUsedLetters);

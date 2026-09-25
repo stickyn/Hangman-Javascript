@@ -37,6 +37,12 @@ body {
 #wordsandpoints {
     display: flex;
     flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+}
+#hangmanContainer
+{
+    max-width: 505px;
 }
 #wordSpawner {
     display: flex;
