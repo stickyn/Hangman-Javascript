@@ -10,6 +10,14 @@
  * Sometimes, we break away from this, this is to explain a big block of code, and the lines inside of it mostly do basic things like creating an element
  */
 
+/**
+ * Things to add:
+ * ACTUAL 'Hangman'
+ * Redesign UI
+ * Smooth Animations
+ */
+
+
 getWord();
 /**
  * Fetches a random word, converts it into a array of it's letters and a corresponding count blank array, and checks for the player's wins.
