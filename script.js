@@ -33,7 +33,7 @@ async function getWord()
      */
     const winCounter = document.getElementById("winCount");
     let winValues = parseInt(winCounter.textContent);
-    if(winValues == 0)
+    if(winValues === 0)
     {
         localStorage.setItem("wins",winValues);
     }
@@ -78,7 +78,7 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
     const uslSpawner = document.createElement("div");
     uslSpawner.setAttribute('id','wordUsedDisplay');
     document.body.appendChild(uslSpawner);
-    if(gamemode == "start")
+    if(gamemode === "start")
     {
         /**
          * 1. Put every letter from 'word' into 'displayLetterArray' 
@@ -141,28 +141,32 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
      * @type {Element} clearScore - The button used for clearing the player's score if they so wish
      * @type {Element} retrieveBoxVal = The input box where the user enters their guess
      * @type {Element} getPoints - The display on screen that shows how many attempts the player has
+     * @type {Array} hangmanImages - Array featuring all the images for the 'Hangman' graphic
+     * @type {Element} hangmanImContainer - Div element that displays the images
      */
     const retrieveButton = document.getElementById("submitButton");
     const clearScore = document.getElementById("clearButton");
     const retrieveBoxVal = document.getElementById("inputBox");
-    const getPoints = document.getElementById("attemptValue");
+    const hangmanImages = ['Hangman Images/hm7.png','Hangman Images/hm6.png','Hangman Images/hm5.png','Hangman Images/hm4.png','Hangman Images/hm3.png','Hangman Images/hm2.png'];
+    const hangmanImContainer = document.getElementById("hangmanContainer");
+     //const getPoints = document.getElementById("attemptValue");
     /** This is a gimmick, it checks how many attempts the player has, and if it's 1, the 'getPoints' element is switched to 'Final Attempt' but by default showcases 'Attempts: "attemptsGoHere"' */
-    switch(attemptCount) 
-    {
-        case 1:
-            getPoints.textContent = `Final Attempt`;
-            break;
-        default:
-            getPoints.textContent = `Attempts: ${attemptCount}`;
-            break;
-    }
+    // switch(attemptCount) 
+    // {
+    //     case 1:
+    //         getPoints.textContent = `Final Attempt`;
+    //         break;
+    //     default:
+    //         getPoints.textContent = `Attempts: ${attemptCount}`;
+    //         break;
+    // }
     /** Here we check if 'gameStarArray' does not have '*' which means that it contains only the letters, meaning the player guessed it 
      * 1. Get the wins in localStorage and convert to a int, and then add 1 to it.
      * 2. Set the localStorage to now have added 1
      * 3. Announce to the player they won and reload the page.
      * Otherwise, if 'attemptCount' is equal to 0, and 'gameStarArray' does have '*' then that means the player has lost, so display it and reload.
     */
-    if(gameStarArray.includes("*") == false)
+    if(gameStarArray.includes("*") === false)
     {
         let convertToInt = parseInt(localStorage.getItem("wins"));
         convertToInt = convertToInt+=1;
@@ -171,10 +175,15 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
         alert(`You Win! The word was '${gameWord}'`);
         location.reload();
     }
-    else if(attemptCount == 0)
+    else if(attemptCount === 0)
     {
-            alert(`You have lost, the word is '${gameWord}'`);
-            location.reload();
+        /** This only happens when the player loses, because previously when the player lost, the game over message would appear, without the hangman being fully drawn */
+            hangmanImContainer.setAttribute("src",hangmanImages[attemptCount]);
+            const timeTill = setTimeout(function(){
+                alert(`You have lost, the word is '${gameWord}'`);
+                location.reload();
+            },1000);
+            
     }
     
     /** Below events occur if the first if statement valuses are not met. */
@@ -195,26 +204,25 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
      */
     retrieveButton.onclick = function(){
         const possibleLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-        const hangmanImages = ['Hangman Images/hm7.png','Hangman Images/hm6.png','Hangman Images/hm5.png','Hangman Images/hm4.png','Hangman Images/hm3.png','Hangman Images/hm2.png'];
-        const hangmanImContainer = document.getElementById("hangmanContainer");
+        
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
         let arrayed = [];
         /** First, check if the player's answer is valid, if it's in 'possibleLetters' */
-        if(possibleLetters.includes(modifiedAnswer) == false)
+        if(possibleLetters.includes(modifiedAnswer) === false)
         {
             alert("Invalid character");
         }
         /** If it is valid, first check if it has already been used, if it's in 'gameUsedLetters' if it is, also skip turn */
         else 
         {
-            if(gameUsedLetters.includes(modifiedAnswer) == true)
+            if(gameUsedLetters.includes(modifiedAnswer) === true)
             {
                 alert("You have already used this letter!"); 
             }
 
             /** If the player has not used this letter before, include it in 'gameUsedLetters' */
-            else if(gameUsedLetters.includes(modifiedAnswer) == false)
+            else if(gameUsedLetters.includes(modifiedAnswer) === false)
             {
                 gameUsedLetters.push(modifiedAnswer);
                 /**
@@ -236,7 +244,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                          * Now that the chosen letter's first instance is uppercased, it is not considered the player's answer, so Javascript will have to continue searching to see if the letter exists
                          * If it doesn't, or the letter appears only once, then break out of the loop
                          */
-                        if(gameLetterArray.includes(modifiedAnswer) == false)
+                        if(gameLetterArray.includes(modifiedAnswer) === false)
                         {
                             break;
                         }
@@ -274,6 +282,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                     alert("Incorrect!");
                     /** Subtract one from count only if the player is incorrect and not if the letter was used or not valid*/
                     attemptCount--;
+                    /** Display the corresponding image */
                     hangmanImContainer.setAttribute("src",hangmanImages[attemptCount]);
 
                 }
