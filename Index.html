@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hangman!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styling.css">
+<link href="https://fonts.googleapis.com/css2?family=Foldit:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design.css">
+
 </head>
 <body>
-<div id="header">
-<h1 id="titleText">Hangman!</h1>
-<div id="winsLabels">
-<h1 id="winAmount">Your Wins:</h1>
-<h1 id="winCount"></h1>
-</div>
-
-
-</div>
+<h1 id="titleText">Hangman (V.1)</h1> 
 <hr>
-<div id="wordsandpoints">
-<img id="hangmanContainer" src="Hangman Images/hm1.png">
-<div id="wordSpawner">
 
+<!--LOK THROUGH THE JS AFTERWARDS-->
+<div id="bodyContainer">
+<div id="hangmanContainer">
+<img id="hangImage" src="Hangman Images/hm1.png">
+</div>
+
+<div id="mechanics">
+<div id="wordSpawner">
+</div>
+<h2>(Enter a letter below!)</h2>
+<input id="inputBox">
+<h2 id="submitButton">Submit</h2>
 
 </div>
+</div>
+
+
+
+
+
+
+
+<div id="bottomBar">
+<div id="totalWinText">
+<p id="winAmount">Your Wins:</p>
+ 
+</div>
+<p>Made by Basit Siddique 🖤</p>
+<p id="clearButton">Clear Wins</p>
+</div>
+</body>
+ <script src="script.js"></script> 
+</html>
+
+
+
+
 
 <!-- <div id="pointsDisplay">
 <h1 id="attemptValue"></h1>
 </div> -->
-
-</div>
-
-<div id="mechanics">
-<h2>Enter a letter</h2>
-<input id="inputBox">
-<button id="submitButton">Submit</button>
-<button id="clearButton">Clear</button>
-</div>
-
-
-</body>
-<script src="script.js"></script>
-</html>
