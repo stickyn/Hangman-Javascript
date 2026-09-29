@@ -1,0 +1,179 @@
+/** Everything is in the order it is seen on the page */
+body
+{
+    margin: 0;
+    font-family: monospace;
+}
+/** Header */
+#titleText
+{
+    text-align: center;
+    font-family: "Foldit";
+}
+
+#headDivider
+{
+    margin: 0;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    
+}
+/** === */
+
+/* Gameplay Area */
+
+#bodyContainer
+{
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    top: 55px;
+    column-gap: 55px;
+    
+}
+
+#hangmanContainer
+{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+
+#hangImage
+{
+    flex-grow: 3;
+    width: 565px;
+    height: 450px;
+}
+
+#wordUsedDisplay
+{
+    display: flex;
+    flex-direction: row;
+    column-gap: 3px;
+    
+}
+
+#mechanics
+{
+    padding: 25px;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+#guessedLetterWords
+{
+
+}
+
+#wordSpawner
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 25px;
+    font-size: 25px;
+}
+
+#inputBox
+{
+    color:white;
+    background-color: black;
+}
+
+#submitButton:hover
+{
+    color: red;
+}
+
+#submitButton
+{
+    color: black;
+    text-decoration: underline;
+    transition: color 1s;
+    cursor: pointer;
+   
+}
+
+/** === */
+
+
+/** Footer */
+
+#bottomBar
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 75px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+#clearButton:hover 
+{
+    color: red;
+}
+
+#clearButton
+{
+    text-decoration: underline;
+    transition: color 1s;
+    color: white;
+    cursor: pointer;
+}
+
+details
+{
+    margin-top: 0;
+}
+
+@media screen and (orientation: portrait)
+{
+    #hangImage
+    {
+        width: 365px;
+        height: 250px;
+    }
+    #wordSpawner
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        column-gap: 45px;
+        font-size: 15px;
+    }
+
+
+}
+@media screen and (max-width: 1220px) 
+{
+    #bodyContainer
+    {
+        padding-bottom: 150px;
+    }
+    #mechanics
+    {
+        padding-bottom: 150px;
+    }
+    
+}
