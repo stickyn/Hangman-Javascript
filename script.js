@@ -10,14 +10,6 @@
  * Sometimes, we break away from this, this is to explain a big block of code, and the lines inside of it mostly do basic things like creating an element
  */
 
-/**
- * Things to add:
- * ACTUAL 'Hangman'
- * Redesign UI
- * Smooth Animations
- */
-
-
 getWord();
 /**
  * Fetches a random word, converts it into a array of it's letters and a corresponding count blank array, and checks for the player's wins.
@@ -36,7 +28,7 @@ async function getWord()
      */
     const winCounter = document.getElementById("winAmount");
     let winValues = parseInt(winCounter.textContent);
-    if(winValues === 0)
+    if(winValues == 0)
     {
         localStorage.setItem("wins",winValues);
     }
@@ -46,14 +38,14 @@ async function getWord()
     let setupStarArray = [];
     let usedLetters = [];
    
-    /** We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: )*/
+    /* We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: )*/
     
-    const getWordData = await fetch(`https://random-words-api.kushcreates.com/api?length=5&words=1`);
+    const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?diff=1&length=5`);
     const loadData = await getWordData.json()
-    /** 'loadData[0].word' is the word fetched */
-    console.log(loadData[0].word)
+    /* 'loadData[0].word' is the word fetched */
+    console.log(loadData[0])
     
-    openingFunction(loadData[0].word,setupLetterArray,setupStarArray,"start",6,usedLetters);
+    openingFunction(loadData[0],setupLetterArray,setupStarArray,"start",6,usedLetters);
 }
 
 /**
@@ -80,20 +72,16 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
     const hangDiv = document.getElementById("hangmanContainer");
     const wSpawner = document.getElementById("wordSpawner");
     const uslSpawner = document.createElement("div");
-    const quickLabel = document.createElement("h1");
     uslSpawner.setAttribute('id','wordUsedDisplay');
     hangDiv.append(uslSpawner);
-    if(gamemode === "start")
+    if(gamemode == "start")
     {
         /**
          * 1. Put every letter from 'word' into 'displayLetterArray' 
          * 2. Because the loop is based on 'word' length, add a '*' to 'displayStarArray' based on how many letters are in 'word'
          * 3. Every 'loop' create an 'h1' element that displays a '*' from 'displayStarArray' and give it class and id, the id being a number
          */
-        
-        quickLabel.setAttribute("id","quikLabel");
-        quickLabel.textContent = "Used letters go here";
-        uslSpawner.append(quickLabel);
+    
         for(let i = 0; i < word.length; i++)
         {
             displayLetterArray[i] = word[i];
@@ -111,26 +99,29 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
      */
     else 
     {
-        
-        /** Repeat the same action as the previous loop, albeit just display 'displayStarArray' The reason we re-create the 'h1's all over again is to update incase of correct answers (doing otherwise would not allow showing answers)*/
+        /* Repeat the same action as the previous loop, albeit just display 'displayStarArray' The reason we re-create the 'h1's all over again is to update incase of correct answers (doing otherwise would not allow showing answers)*/
         for(let i = 0; i < word.length; i++)
         {
+            
             let a = document.createElement("h1");
             a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
             wSpawner.append(a);
         }
+        
+        
     }
 
-    /** Display all the letters attempted by the player, creating 'h1's to display them, this is re-created so new letters can be displayed afterwards (doing otherwise would not allow new letters)*/
+    /* Display all the letters attempted by the player, creating 'h1's to display them, this is re-created so new letters can be displayed afterwards (doing otherwise would not allow new letters)*/
     for(let i = 0; i < displayUsedLetters.length; i++)
     {
-        /** Their ids are numbers. because Javascript does not like using classes for some reason. */
+     
             let a = document.createElement("h1");
-            a.setAttribute("id",`${i}used`);
+            a.setAttribute("id","usedLetter");
             a.textContent = displayUsedLetters[i];
             uslSpawner.append(a);
+            
     }
     gameplay(word,displayLetterArray,displayStarArray,attemptAmount,displayUsedLetters,wins);
 }
@@ -162,6 +153,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     const hangImg = document.getElementById("hangImage");
     const hangDiv = document.getElementById("hangmanContainer");
 
+    
 
     /** Here we check if 'gameStarArray' does not have '*' which means that it contains only the letters, meaning the player guessed it 
      * 1. Get the wins in localStorage and convert to a int, and then add 1 to it.
@@ -183,7 +175,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     }
     else if(attemptCount === 0)
     {
-        /** This only happens when the player loses, because previously when the player lost, the game over message would appear, without the hangman being fully drawn */
+        /* This only happens when the player loses, because previously when the player lost, the game over message would appear, without the hangman being fully drawn */
             hangImg.setAttribute("src",hangmanImages[attemptCount]);
             const loseTimeTill = setTimeout(function(){
                 alert(`You have lost, the word is '${gameWord}'`);
@@ -192,9 +184,9 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
             
     }
     
-    /** Below events occur if the first if statement valuses are not met. */
+    /* Below events occur if the first if statement valuses are not met. */
 
-    /** When the player clicks the button to clear their score, they are first asked and then the localstorage item is set to 0 and reload page */
+    /* When the player clicks the button to clear their score, they are first asked and then the localstorage item is set to 0 and reload page */
     clearScore.onclick = function()
     {
         if(confirm("Would you like to clear your wins?"))
@@ -221,23 +213,24 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
         
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
+        let invalidChar;
         let arrayed = [];
-        /** First, check if the player's answer is valid, if it's in 'possibleLetters' */
-        if(possibleLetters.includes(modifiedAnswer) === false)
+        /* First, check if the player's answer is valid, if it's in 'possibleLetters' */
+        if(possibleLetters.includes(modifiedAnswer) == false)
         {
             alert("Invalid character");
-            
+            invalidChar = true;
         }
-        /** If it is valid, first check if it has already been used, if it's in 'gameUsedLetters' if it is, also skip turn */
+        /* If it is valid, first check if it has already been used, if it's in 'gameUsedLetters' if it is, also skip turn */
         else 
         {
-            if(gameUsedLetters.includes(modifiedAnswer) === true)
+            if(gameUsedLetters.includes(modifiedAnswer) == true)
             {
                 alert("You have already used this letter!"); 
             }
 
-            /** If the player has not used this letter before, include it in 'gameUsedLetters' */
-            else if(gameUsedLetters.includes(modifiedAnswer) === false)
+            /* If the player has not used this letter before, include it in 'gameUsedLetters' */
+            else if(gameUsedLetters.includes(modifiedAnswer) == false)
             {
                 gameUsedLetters.push(modifiedAnswer);
                 /**
@@ -259,7 +252,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                          * Now that the chosen letter's first instance is uppercased, it is not considered the player's answer, so Javascript will have to continue searching to see if the letter exists
                          * If it doesn't, or the letter appears only once, then break out of the loop
                          */
-                        if(gameLetterArray.includes(modifiedAnswer) === false)
+                        if(gameLetterArray.includes(modifiedAnswer) == false)
                         {
                             break;
                         }
@@ -295,9 +288,9 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                 else 
                 {
                     alert("Incorrect!");
-                    /** Subtract one from count only if the player is incorrect and not if the letter was used or not valid*/
+                    /* Subtract one from count only if the player is incorrect and not if the letter was used or not valid*/
                     attemptCount--;
-                    /** Display the corresponding image */
+                    /* Display the corresponding image */
                     hangImg.setAttribute("src",hangmanImages[attemptCount]);
 
                 }
@@ -318,11 +311,13 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
             wordSpawner.removeChild(b);
             
         }
-        /** Remove the div displaying the player's used letters, not doing this would not allow us to update them */
+        /* Remove the div displaying the player's used letters, not doing this would not allow us to update them */
         hangDiv.removeChild(uslSpawner);
         
-        /** Clear the input box */
+        /* Clear the input box */
         retrieveBoxVal.value = null;
         openingFunction(gameWord,gameLetterArray,gameStarArray,null,attemptCount, gameUsedLetters,gameWins);
+        
     };
 }
+

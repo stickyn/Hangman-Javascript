@@ -10,9 +10,19 @@ body
     text-align: center;
     font-family: "Foldit";
 }
+
+#headDivider
+{
+    margin: 0;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    
+}
 /** === */
 
 /* Gameplay Area */
+
 #bodyContainer
 {
     border-color: black;
@@ -23,13 +33,27 @@ body
     justify-self: center;
     justify-content: center;
     flex-wrap: wrap;
-    column-gap: 235px;
+    position: relative;
+    top: 55px;
+    column-gap: 55px;
     
 }
 
 #hangmanContainer
 {
-    /**width: 565px;*/
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+
+#hangImage
+{
+    flex-grow: 3;
+    width: 565px;
+    height: 450px;
 }
 
 #wordUsedDisplay
@@ -42,14 +66,19 @@ body
 
 #mechanics
 {
-    border-color: black;
-    border-style: solid;
-    border-width: 2px;
+    padding: 25px;
+    width: max-content;
     display: flex;
     flex-direction: column;
     justify-self: center;
     justify-content: center;
     text-align: center;
+    
+}
+
+#guessedLetterWords
+{
+
 }
 
 #wordSpawner
@@ -57,7 +86,7 @@ body
     display: flex;
     flex-direction: row;
     justify-content: center;
-    column-gap: 45px;
+    column-gap: 25px;
     font-size: 25px;
 }
 
@@ -113,11 +142,35 @@ body
     cursor: pointer;
 }
 
+details
+{
+    margin-top: 0;
+}
+
+@media screen and (orientation: portrait)
+{
+    #hangImage
+    {
+        width: 365px;
+        height: 250px;
+    }
+    #wordSpawner
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        column-gap: 45px;
+        font-size: 15px;
+    }
 
 
+}
 @media screen and (max-width: 1220px) 
 {
-   
+    #bodyContainer
+    {
+        padding-bottom: 150px;
+    }
     #mechanics
     {
         padding-bottom: 150px;
