@@ -7,8 +7,9 @@ body
 /** Header */
 #titleText
 {
+    font-size: 55px;
     text-align: center;
-    font-family: "Foldit";
+    font-family: 'Share Tech Mono', monospace;
 }
 
 #headDivider
@@ -19,6 +20,54 @@ body
     border-width: 1px;
     
 }
+
+#summaryText
+{
+    color: black;
+    cursor: pointer;
+    background-color: white;
+}
+
+details
+{
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    background-color: black;
+}
+
+#def
+{
+    cursor: pointer;
+    color: white;
+    transition: color 1s;
+}
+
+#hallo:hover
+{
+    color: orange;
+}
+
+#hallo
+{
+    cursor: pointer;
+    color: white;
+    transition: color 1s;
+}
+
+#drac:hover
+{
+    color: rgb(139, 233, 253);
+}
+
+#drac 
+{
+    cursor: pointer;
+    color: white;
+    transition: color 1s;
+}
+
+
 /** === */
 
 /* Gameplay Area */
@@ -28,6 +77,8 @@ body
     border-color: black;
     border-style: solid;
     border-width: 2px;
+    margin-bottom: 255px;
+    background-color: darkgray;
     display: flex;
     flex-direction: row;
     justify-self: center;
@@ -76,11 +127,6 @@ body
     
 }
 
-#guessedLetterWords
-{
-
-}
-
 #wordSpawner
 {
     display: flex;
@@ -90,22 +136,20 @@ body
     font-size: 25px;
 }
 
+
 #inputBox
 {
     color:white;
     background-color: black;
-}
-
-#submitButton:hover
-{
-    color: red;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
 }
 
 #submitButton
 {
     color: black;
     text-decoration: underline;
-    transition: color 1s;
     cursor: pointer;
    
 }
@@ -129,22 +173,12 @@ body
     background-color: black;
     text-align: center;
 }
-#clearButton:hover 
-{
-    color: red;
-}
 
 #clearButton
 {
     text-decoration: underline;
-    transition: color 1s;
     color: white;
     cursor: pointer;
-}
-
-details
-{
-    margin-top: 0;
 }
 
 @media screen and (orientation: portrait)

@@ -10,24 +10,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="design.css">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
-<body>
-<h1 class="text" id="titleText">Hangman (V.1)</h1> 
 
+<body>
+<h1 id="titleText">Hangman (V.1)</h1> 
 <hr id="headDivider">
 <details id="themeSelector">
-<summary class="text">Themes</summary>
-<p class="text" id="def">Default</p>
-<p class="text" id="hallo">Halloween</p>
-<p class="text" id="drac">Dracula</p>
+<summary id="summaryText">Themes</summary>
+<p id="def">Default</p>
+<p id="hallo">Halloween</p>
+<p id="drac">Dracula (Not official lol)</p>
 </details>
-<!--LOK THROUGH THE JS AFTERWARDS-->
+
 <div id="bodyContainer">
 <div id="hangmanContainer">
 <img id="hangImage" src="Hangman Images/hm1.png">
 </div>
-
 <div id="mechanics">
 <div id="wordSpawner">
 </div>
@@ -37,18 +38,14 @@
 </div>
 </div>
 
-
-<!-- Add a little 'dark' edition where you save the amount of losses, and everytime the player loses it shows how many ppl have been hanged-->
-
 <div id="bottomBar">
 <div id="totalWinText">
 <p id="winAmount">Your Wins:</p>
- 
 </div>
 <p>Made by Basit Siddique 🖤</p>
 <p id="clearButton">Clear Wins</p>
-
 </div>
+
 </body>
- <script src="script.js"></script> 
+<script src="script.js"></script> 
 </html>

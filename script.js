@@ -10,15 +10,94 @@
  * Sometimes, we break away from this, this is to explain a big block of code, and the lines inside of it mostly do basic things like creating an element
  */
 
+/* This entire section is for the sole purpose of customization, these buttons can be pressed at anytime to customize the 'theme' */
+const defButton = document.getElementById("def");
+const halloButton = document.getElementById("hallo");
+const dracButton = document.getElementById("drac");
+
+defButton.addEventListener("click",function(){changeTheme("Default")});
+halloButton.addEventListener("click",function(){changeTheme("Halloween")});
+dracButton.addEventListener("click",function(){changeTheme("Dracula")});
+
+/**
+ * Changes elements of the page to adapt to the selected theme
+ * @param {string} theme - What theme was chosen and is used to determine what colors to change what to
+ */
+function changeTheme(theme)
+{
+    /**
+     * @param {Element} bodyCon - The container holding the core gameplay (the image, submit button, word)
+     * @param {Element} textTitle - The title logo
+     * @param {Element} dividerObject - The hr divider between the header and gameply
+     * @param {Element} wordspawnerColor - The '*' array's color and the letters that will reveal itself
+     * @param {Element} textClass - Basic text, like labels
+     * Note: The text color showing the player's used letters does not seem to work, likely because we are constantly deleting them, and it won't seem to update alongside other text.
+     */
+    const bodyCon = document.getElementById("bodyContainer");
+    const textTitle = document.getElementById("titleText");
+    const dividerObject = document.getElementById("headDivider");
+    const wordspawnerColor = document.getElementById("wordSpawner");
+    const textClass = document.getElementsByClassName("text");
+    const summaryObject = document.getElementById("summaryText")
+    
+    if(theme == "Default")
+    {
+        document.body.style.backgroundColor = "white";
+        textTitle.style.color = "black";
+        bodyCon.style.borderColor = "black";
+        bodyCon.style.backgroundColor = "darkgray";
+        dividerObject.style.borderColor = "gray";
+        summaryObject.style.color = "black";
+        summaryObject.style.backgroundColor = "white";
+        wordspawnerColor.style.color = "black";
+
+        for(let i = 0; i < textClass.length; i++)
+        {
+            textClass[i].style.color = "black";
+        }
+    }
+    else if(theme == "Halloween")
+    {
+        document.body.style.backgroundColor = "rgb(252, 107, 3)";
+        textTitle.style.color = "purple";
+        bodyCon.style.borderColor = "green";
+        bodyCon.style.backgroundColor = "darkorange";
+        dividerObject.style.borderColor = "green";
+        summaryObject.style.color = "purple";
+        summaryObject.style.backgroundColor = "rgb(252, 107, 3)";
+        wordspawnerColor.style.color = "purple";
+        
+        for(let i = 0; i < textClass.length; i++)
+        {
+            textClass[i].style.color = "green";
+        }
+    }
+    else if(theme == "Dracula")
+    {
+        
+        document.body.style.backgroundColor = "rgb(33,34,44)";
+        textTitle.style.color = "white";
+        bodyCon.style.borderColor = "rgb(241, 250, 140)";
+        bodyCon.style.backgroundColor = "rgb(40, 42, 54)";
+        dividerObject.style.borderColor = "rgb(255, 121, 198)";
+        summaryObject.style.color = "white";
+        summaryObject.style.backgroundColor = "rgb(33,34,44)";
+        wordspawnerColor.style.color = "rgb(139, 233, 253)";
+      
+        for(let i = 0; i < textClass.length; i++)
+        {
+            textClass[i].style.color = "rgb(248, 248, 242)";
+        }
+    }
+                         
+}
+
 getWord();
 /**
  * Fetches a random word, converts it into a array of it's letters and a corresponding count blank array, and checks for the player's wins.
  */
 async function getWord()
 {
-
-    
-
     /**
      * 1. 'winCounter' retrieves an 'h1' element that will display the player's total wins
      * 2. Get 'winCounter's value, which is when on the site for the first time, is 0, and turn it into a int, (it's automatically a string)
@@ -32,17 +111,16 @@ async function getWord()
     {
         localStorage.setItem("wins",winValues);
     }
-    
     winCounter.textContent = `Your Wins: ${localStorage.getItem("wins")}`;
     let setupLetterArray = [];
     let setupStarArray = [];
     let usedLetters = [];
    
-    /* We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: )*/
+    /* We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: https://github.com/RazorSh4rk/random-word-api/)*/
     
     const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?diff=1&length=5`);
     const loadData = await getWordData.json()
-    /* 'loadData[0].word' is the word fetched */
+    /* 'loadData[0]' is the word fetched */
     console.log(loadData[0])
     
     openingFunction(loadData[0],setupLetterArray,setupStarArray,"start",6,usedLetters);
@@ -210,16 +288,13 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
      */
     retrieveButton.onclick = function(){
         const possibleLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-        
         let playerAnswer = retrieveBoxVal.value;
         let modifiedAnswer = playerAnswer.toLowerCase();
-        let invalidChar;
         let arrayed = [];
         /* First, check if the player's answer is valid, if it's in 'possibleLetters' */
         if(possibleLetters.includes(modifiedAnswer) == false)
         {
             alert("Invalid character");
-            invalidChar = true;
         }
         /* If it is valid, first check if it has already been used, if it's in 'gameUsedLetters' if it is, also skip turn */
         else 
