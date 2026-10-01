@@ -25,12 +25,14 @@ dracButton.addEventListener("click",function(){changeTheme("Dracula")});
  */
 function changeTheme(theme)
 {
+    localStorage.setItem("theme",theme);
     /**
      * @param {Element} bodyCon - The container holding the core gameplay (the image, submit button, word)
      * @param {Element} textTitle - The title logo
      * @param {Element} dividerObject - The hr divider between the header and gameply
      * @param {Element} wordspawnerColor - The '*' array's color and the letters that will reveal itself
      * @param {Element} textClass - Basic text, like labels
+     * @param {Element} summaryObject - The theme drop down menu
      * Note: The text color showing the player's used letters does not seem to work, likely because we are constantly deleting them, and it won't seem to update alongside other text.
      */
     const bodyCon = document.getElementById("bodyContainer");
@@ -40,7 +42,7 @@ function changeTheme(theme)
     const textClass = document.getElementsByClassName("text");
     const summaryObject = document.getElementById("summaryText")
     
-    if(theme == "Default")
+    if(localStorage.getItem("theme") == "Default")
     {
         document.body.style.backgroundColor = "white";
         textTitle.style.color = "black";
@@ -56,7 +58,7 @@ function changeTheme(theme)
             textClass[i].style.color = "black";
         }
     }
-    else if(theme == "Halloween")
+    else if(localStorage.getItem("theme") == "Halloween")
     {
         document.body.style.backgroundColor = "rgb(252, 107, 3)";
         textTitle.style.color = "purple";
@@ -72,11 +74,11 @@ function changeTheme(theme)
             textClass[i].style.color = "green";
         }
     }
-    else if(theme == "Dracula")
+    else if(localStorage.getItem("theme") == "Dracula")
     {
         
         document.body.style.backgroundColor = "rgb(33,34,44)";
-        textTitle.style.color = "white";
+        textTitle.style.color = "rgb(139, 233, 253)";
         bodyCon.style.borderColor = "rgb(241, 250, 140)";
         bodyCon.style.backgroundColor = "rgb(40, 42, 54)";
         dividerObject.style.borderColor = "rgb(255, 121, 198)";
@@ -92,6 +94,10 @@ function changeTheme(theme)
                          
 }
 
+/* Get and set the main theme */
+changeTheme(localStorage.getItem("theme"));
+
+/* Offical program starts here! */
 getWord();
 /**
  * Fetches a random word, converts it into a array of it's letters and a corresponding count blank array, and checks for the player's wins.
@@ -218,10 +224,11 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     /**
      * @type {Element} retrieveButton - The button the player uses to 'check' their answer
      * @type {Element} clearScore - The button used for clearing the player's score if they so wish
-     * @type {Element} retrieveBoxVal = The input box where the user enters their guess
+     * @type {Element} retrieveBoxVal - The input box where the user enters their guess
      * @type {Element} getPoints - The display on screen that shows how many attempts the player has
      * @type {Array} hangmanImages - Array featuring all the images for the 'Hangman' graphic
      * @type {Element} hangmanImContainer - Displays the images
+     * @type {Element} labelText - The label above the textbox, we will just delete it later on
      */
     
     const retrieveButton = document.getElementById("submitButton");
@@ -230,13 +237,13 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     const hangmanImages = ['Hangman Images/hm7.png','Hangman Images/hm6.png','Hangman Images/hm5.png','Hangman Images/hm4.png','Hangman Images/hm3.png','Hangman Images/hm2.png'];
     const hangImg = document.getElementById("hangImage");
     const hangDiv = document.getElementById("hangmanContainer");
-
-    
+    const labelText = document.getElementById("label");
 
     /** Here we check if 'gameStarArray' does not have '*' which means that it contains only the letters, meaning the player guessed it 
      * 1. Get the wins in localStorage and convert to a int, and then add 1 to it.
      * 2. Set the localStorage to now have added 1
-     * 3. Announce to the player they won and reload the page.
+     * 3. Remove the submit button, input box and label text;
+     * 4. Announce to the player they won and reload the page.
      * Otherwise, if 'attemptCount' is equal to 0, and 'gameStarArray' does have '*' then that means the player has lost, so display it and reload.
     */
     if(gameStarArray.includes("*") === false)
@@ -244,6 +251,9 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
         let convertToInt = parseInt(localStorage.getItem("wins"));
         convertToInt = convertToInt+=1;
         localStorage.setItem("wins",convertToInt);
+        retrieveButton.remove();
+        retrieveBoxVal.remove();
+        labelText.remove();
         console.log(localStorage.getItem("wins"));
         const winTimeTill = setTimeout(function(){
                 alert(`You Win! The word was '${gameWord}'`);
@@ -253,8 +263,11 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     }
     else if(attemptCount === 0)
     {
-        /* This only happens when the player loses, because previously when the player lost, the game over message would appear, without the hangman being fully drawn */
+        /* When the player loses, do the same thing, but change the hangman image to the shown the fully drawn image */
             hangImg.setAttribute("src",hangmanImages[attemptCount]);
+            retrieveButton.remove();
+            retrieveBoxVal.remove();
+            labelText.remove();
             const loseTimeTill = setTimeout(function(){
                 alert(`You have lost, the word is '${gameWord}'`);
                 location.reload();
