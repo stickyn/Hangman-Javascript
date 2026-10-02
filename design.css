@@ -17,6 +17,8 @@ body
     border-color: gray;
     border-style: solid;
     border-width: 1px;
+    display: flex;
+    z-index: 1;
    
 }
 
@@ -81,12 +83,14 @@ details
     background-color: darkgray;
     display: flex;
     flex-direction: row;
-    justify-self: center;
+   align-self: center;
     justify-content: center;
+    
     flex-wrap: wrap;
     position: relative;
-    top: 55px;
+    top: 25px;
     column-gap: 55px;
+   
     
 }
 
@@ -120,6 +124,7 @@ details
     padding: 25px;
     width: max-content;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-self: center;
     justify-content: center;
@@ -136,6 +141,10 @@ details
     font-size: 25px;
 }
 
+#label
+{
+    font-size: 20px;
+}
 
 #inputBox
 {
@@ -144,6 +153,7 @@ details
     border-color: black;
     border-width: 1px;
     border-style: solid;
+    
 }
 
 #submitButton
@@ -183,10 +193,19 @@ details
 
 @media screen and (orientation: portrait)
 {
+   
+    body
+    {
+        scrollbar-width: none;
+    }
     #hangImage
     {
-        width: 365px;
-        height: 250px;
+        width: 295px;
+        height: 190px;
+    }
+    #hangmanContainer
+    {
+        width: 100%;
     }
     #wordSpawner
     {
@@ -198,9 +217,14 @@ details
     }
 
 
+
 }
 @media screen and (max-width: 1220px) 
 {
+    body
+    {
+        scrollbar-width: none;
+    }
     #bodyContainer
     {
         padding-bottom: 150px;
@@ -211,3 +235,5 @@ details
     }
     
 }
+
+
