@@ -10,6 +10,7 @@
  * Sometimes, we break away from this, this is to explain a big block of code, and the lines inside of it mostly do basic things like creating an element
  */
 
+
 /* This entire section is for the sole purpose of customization, these buttons can be pressed at anytime to customize the 'theme' */
 const defButton = document.getElementById("def");
 const halloButton = document.getElementById("hallo");
@@ -23,8 +24,10 @@ dracButton.addEventListener("click",function(){changeTheme("Dracula")});
  * Changes elements of the page to adapt to the selected theme
  * @param {string} theme - What theme was chosen and is used to determine what colors to change what to
  */
+
 function changeTheme(theme)
 {
+    /* Whatever theme the player chose will be saved */
     localStorage.setItem("theme",theme);
     /**
      * @param {Element} bodyCon - The container holding the core gameplay (the image, submit button, word)
@@ -123,9 +126,9 @@ async function getWord()
     let usedLetters = [];
    
     /* We are using a random word API, it retrieves a word that is at least 5 letters, (API Creator: https://github.com/RazorSh4rk/random-word-api/)*/
-    
     const getWordData = await fetch(`https://random-word-api.herokuapp.com/word?diff=1&length=5`);
     const loadData = await getWordData.json()
+
     /* 'loadData[0]' is the word fetched */
     console.log(loadData[0])
     
@@ -162,8 +165,9 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
     {
         /**
          * 1. Put every letter from 'word' into 'displayLetterArray' 
-         * 2. Because the loop is based on 'word' length, add a '*' to 'displayStarArray' based on how many letters are in 'word'
-         * 3. Every 'loop' create an 'h1' element that displays a '*' from 'displayStarArray' and give it class and id, the id being a number
+         * 2. Because the loop is based on 'word' length, add a '*' to 'displayStarArray' based on how many letters are in 'word' (For example, 
+         *  Word: freddy, displayLetterArray: ['f','r','e','d','d','y'], displayStarArray: ['*','*','*','*','*','*',]
+         * 3. Every 'loop' creates an 'h1' element that displays a '*' from 'displayStarArray' and give each letter a id that will be used later.
          */
     
         for(let i = 0; i < word.length; i++)
@@ -171,24 +175,25 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
             displayLetterArray[i] = word[i];
             displayStarArray[i] = "*";
             let a = document.createElement("h1");
-            a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
             wSpawner.append(a);
         
         }
     }
+
     /**
-     * After the player's clicks the submit button, this function is called and 'gamemode' is switched to null 
+     * After the player's clicks the submit button, this function is called and 'gamemode' is switched to null to let the game know to start including letters guessed by the player, (for organization)
      */
     else 
     {
-        /* Repeat the same action as the previous loop, albeit just display 'displayStarArray' The reason we re-create the 'h1's all over again is to update incase of correct answers (doing otherwise would not allow showing answers)*/
+        /* Repeat the same action as the previous loop, 
+        albeit just display 'displayStarArray' Which is what the player will see
+        We create the h1s again because if we didn't and the player guessed a word it would either duplicate or not show up */
         for(let i = 0; i < word.length; i++)
         {
             
             let a = document.createElement("h1");
-            a.setAttribute("class",'number');
             a.setAttribute("id",i);
             a.textContent = displayStarArray[i];
             wSpawner.append(a);
@@ -197,7 +202,10 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
         
     }
 
-    /* Display all the letters attempted by the player, creating 'h1's to display them, this is re-created so new letters can be displayed afterwards (doing otherwise would not allow new letters)*/
+    /* Display all the letters attempted by the player, 
+    creating 'h1's to display them, 
+    this is re-created so new letters can be displayed afterwards 
+    (doing otherwise would not allow new letters) And this only happens when 'gamemode' is set to null*/
     for(let i = 0; i < displayUsedLetters.length; i++)
     {
      
@@ -239,11 +247,11 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
     const hangDiv = document.getElementById("hangmanContainer");
     const labelText = document.getElementById("label");
 
-    /** Here we check if 'gameStarArray' does not have '*' which means that it contains only the letters, meaning the player guessed it 
+    /** Here we check if 'gameStarArray' does not have '*' which means that it contains only the letters, meaning the player has won guessed it 
      * 1. Get the wins in localStorage and convert to a int, and then add 1 to it.
      * 2. Set the localStorage to now have added 1
-     * 3. Remove the submit button, input box and label text;
-     * 4. Announce to the player they won and reload the page.
+     * 3. Remove the submit button, input box and label text.
+     * 4. Announce to the player they won and reload the page and add a win.
      * Otherwise, if 'attemptCount' is equal to 0, and 'gameStarArray' does have '*' then that means the player has lost, so display it and reload.
     */
     if(gameStarArray.includes("*") === false)
@@ -275,9 +283,9 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
             
     }
     
-    /* Below events occur if the first if statement valuses are not met. */
+    /* Below events occur if the first if statement values are not met. Regular gameplay. */
 
-    /* When the player clicks the button to clear their score, they are first asked and then the localstorage item is set to 0 and reload page */
+    /* When the player clicks the button to clear their total wins, they are first asked and then the localstorage item is set to 0 and reload page */
     clearScore.onclick = function()
     {
         if(confirm("Would you like to clear your wins?"))
@@ -297,7 +305,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
      * @type {Array} possibleLetters - If the player's answer is not equal to anything in the array, then the turn is skipped (this is also used so random things are not inputed into the used letters display)
      * @type {Element} playerAnswer - Retrieves the player's answer from the input box
      * @type {string} modifedAnswer - Converts the player answer to lowercase (kinda a fail safe)
-     * @type {Array} arrayed - 
+     * @type {Array} arrayed - (scroll down to the loop for more information)
      */
     retrieveButton.onclick = function(){
         const possibleLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -330,7 +338,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                     alert("Correct!")
                     /**
                      * We are using a for loop here, because Javascript's '.includes' only finds the first instance, a letter appearing more than once will only have it's first instance found
-                     * 1. (Starting from the else statement) put the index (location) of first instance of the chosen letter into 'arrayed'
+                     * 1. (Starting from the else statement) put the index (location) of first instance of the chosen letter into 'arrayed' 
                      * 2. The location of the first instance of a letter, in 'gameLetterArray' turn that into a uppercase letter (this is because incase 'gameLetterArray' has a letter more than once, we will read through it again, and we will not be reading the same letter index twice.)
                      * 3. Now in 'gameStarArray' change the stars to letters with the indexes in 'arrayed' lowercased
                      */
@@ -340,11 +348,24 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                          * Now that the chosen letter's first instance is uppercased, it is not considered the player's answer, so Javascript will have to continue searching to see if the letter exists
                          * If it doesn't, or the letter appears only once, then break out of the loop
                          */
+                        /* This is to stop the loop if the letter no longer exists */
                         if(gameLetterArray.includes(modifiedAnswer) == false)
                         {
                             break;
                         }
                         else {
+                            /**
+                             * Explanation of this process here:
+                             * Word Chosen from API: freddy
+                             * Chosen letter: 'd'
+                             * 1. 'd' first index in 'freddy' is 3, store the character '3' into 'arrayed'
+                             * 2. In 'gameLetterArray' the letter 'd' is turned to uppercase
+                             * 3. Finally, in the 'gameStarArray' (which is shown to the player), the '*' at index '3' (from 'arrayed')
+                             *  into the letter from 'gameLetterArray' that is located at the index of '3' and turned to lowercase,
+                             *  '* * * d * *'
+                             * 4. And repeat if needed, and for 'freddy' this is what will be shown to the player: '* * * d d *'
+                             * 
+                             */
                             arrayed[i] = gameLetterArray.indexOf(modifiedAnswer);
                             gameLetterArray[gameLetterArray.indexOf(modifiedAnswer)]= gameLetterArray[gameLetterArray.indexOf(modifiedAnswer)].toUpperCase();
                             gameStarArray[arrayed[i]] = gameLetterArray[arrayed[i]].toLowerCase();
@@ -365,7 +386,7 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                         
                 
                     }
-                    /** Reset 'gameLetterArray' back to lowercase */
+                    /* Reset 'gameLetterArray' back to lowercase */
                     for(let k = 0; k < gameLetterArray.length; k++)
                     {
                         gameLetterArray[k] = gameLetterArray[k].toLowerCase();
@@ -385,22 +406,22 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
                 
             }   
         }
-        console.log(gameUsedLetters);
         /**
          * These are the same 'wordSpawner' and 'uslSpawner' from the start of the program.
          */
-        const wordSpawner = document.getElementById("wordSpawner");
-        const uslSpawner = document.getElementById("wordUsedDisplay");
-        uslSpawner.textContent = null;
+        const endWordSpawner = document.getElementById("wordSpawner");
+        const endUslSpawner = document.getElementById("wordUsedDisplay");
+    
         /** Delete the displayed word (stars) using their number id's */
         for(let c = 0; c < gameLetterArray.length; c++)
         {
             let b = document.getElementById(c)
-            wordSpawner.removeChild(b);
+            endWordSpawner.removeChild(b);
             
         }
+
         /* Remove the div displaying the player's used letters, not doing this would not allow us to update them */
-        hangDiv.removeChild(uslSpawner);
+        hangDiv.removeChild(endUslSpawner);
         
         /* Clear the input box */
         retrieveBoxVal.value = null;
