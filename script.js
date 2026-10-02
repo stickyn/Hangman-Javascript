@@ -135,8 +135,6 @@ async function getWord()
     const loadData = await getWordData.json()
 
     /* 'loadData[0]' is the word fetched */
-    console.log(loadData[0])
-    
     openingFunction(loadData[0],setupLetterArray,setupStarArray,"start",6,usedLetters);
 }
 
@@ -267,7 +265,6 @@ function gameplay(gameWord,gameLetterArray,gameStarArray,attemptCount,gameUsedLe
         retrieveButton.remove();
         retrieveBoxVal.remove();
         labelText.remove();
-        console.log(localStorage.getItem("wins"));
         const winTimeTill = setTimeout(function(){
                 alert(`You Win! The word was '${gameWord}'`);
                 location.reload();
