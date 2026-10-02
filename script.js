@@ -111,14 +111,19 @@ async function getWord()
      * 1. 'winCounter' retrieves an 'h1' element that will display the player's total wins
      * 2. Get 'winCounter's value, which is when on the site for the first time, is 0, and turn it into a int, (it's automatically a string)
      * 3. If the value is equal to 0, which means the player is visiting for the first time, we will store it into localStorage for later
-     * 4. Set 'winCounter' to display the wins, even if it's 0
-     * 5,6,7. Create the arrays used during gameplay
+     * 4. If the value is equal to 'null' set it to 0, this is for bug fixing.
+     * 5. Set 'winCounter' to display the wins, even if it's 0
+     * 6,7,8. Create the arrays used during gameplay
      */
     const winCounter = document.getElementById("winAmount");
     let winValues = parseInt(winCounter.textContent);
     if(winValues == 0)
     {
         localStorage.setItem("wins",winValues);
+    }
+    else if(localStorage.getItem("wins") == null)
+    {
+        localStorage.setItem("wins",0);
     }
     winCounter.textContent = `Your Wins: ${localStorage.getItem("wins")}`;
     let setupLetterArray = [];
@@ -155,7 +160,7 @@ function openingFunction(word,displayLetterArray,displayStarArray,gamemode,attem
      * 3.. Give the 'uslSpawner' a id, that will be used for accessing later
      * 4.. 'uslSpawner' is added to the document body, and is centered based on it's CSS styling
      * 5.. 'gamemode' checks wether to only show 'displayStarArray' or update it if the player has correct answers (not including 'gamemode' auto wins the game) 
-     */ //////////////////////
+     */ 
     const hangDiv = document.getElementById("hangmanContainer");
     const wSpawner = document.getElementById("wordSpawner");
     const uslSpawner = document.createElement("div");
