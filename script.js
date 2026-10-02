@@ -121,7 +121,7 @@ async function getWord()
     {
         localStorage.setItem("wins",winValues);
     }
-    else if(localStorage.getItem("wins") == null || localStorage.getItem("wins") == null || localStorage.getItem("wins") == "NaN")
+    else if(localStorage.getItem("wins") == null || localStorage.getItem("wins") == "NaN")
     {
         localStorage.setItem("wins",0);
     }
